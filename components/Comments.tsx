@@ -12,7 +12,10 @@ export default function Comments() {
   const containerRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
 
+  const gitalkEnabled = !!(siteConfig.gitalkConfig.clientID && siteConfig.gitalkConfig.clientSecret && siteConfig.gitalkConfig.repo && siteConfig.gitalkConfig.owner);
+
   useEffect(() => {
+    if (!gitalkEnabled) return;
     if (!containerRef.current) return;
 
     // 清空之前的评论区（防止 Next.js 路由切换时重复渲染）
@@ -43,6 +46,8 @@ export default function Comments() {
     }
 
   }, [pathname]);
+
+  if (!gitalkEnabled) return null;
 
   return (
     <div className="w-full mt-16 relative">
