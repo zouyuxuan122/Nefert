@@ -1,13 +1,13 @@
-// 🛡️ 本文件由 XingHuiSama 控制台自动生成
+// 🛡️ 本文件由控制台自动生成
 export interface Friend { id: string; name: string; url: string; description: string; avatar: string; themeColor: string; }
 
 export const friendsData: Friend[] = [
   {
-    "id": "amiya",
-    "name": "罗德岛 PRTS",
-    "description": "记录泰拉大陆的各项数据与前文明遗迹，愿源石的阴霾早日散去。",
-    "avatar": "https://bu.dusays.com/2026/03/24/69c1e38b4c370.jpg",
-    "url": "https://prts.wiki/",
-    "themeColor": "rgba(16, 185, 129, 0.5)"
+    "id": "zx-code",
+    "name": "ZX-Code",
+    "description": "我的核心研究平台：具备自进化技能引擎、无 Key 直连九家国产大模型的 AI 编程 Agent 实验。",
+    "avatar": "/avatar.png",
+    "url": "https://github.com/zouyuxuan122/ZX-code",
+    "themeColor": "rgba(99, 102, 241, 0.5)"
   },
 ];

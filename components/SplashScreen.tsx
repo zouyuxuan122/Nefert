@@ -61,7 +61,7 @@ export default function SplashScreen() {
             <h1 className="text-2xl font-black text-slate-800 dark:text-white mb-2 tracking-[0.2em] uppercase">
               {siteConfig.authorName}
             </h1>
-            <p className="text-[10px] font-black text-slate-400 tracking-[0.5em] mb-12">INITIALIZING SYSTEM</p>
+            <p className="text-[10px] font-black text-slate-400 tracking-[0.5em] mb-12">INITIALIZING AGENT CORE</p>
 
             <div className="w-40 h-[1.5px] bg-slate-200 dark:bg-slate-800 relative">
               <motion.div

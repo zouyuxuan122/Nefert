@@ -134,6 +134,21 @@ export default function MomentList({ moments, authorName, avatarUrl }: any) {
           <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1, marginTop: 16 }} exit={{ height: 0, opacity: 0 }} className="overflow-hidden">
             <div className="bg-slate-50/50 dark:bg-slate-900/50 rounded-2xl md:rounded-3xl p-4 md:p-6 border border-slate-200/50 dark:border-slate-700/50 relative shadow-inner">
               <div className="absolute -top-2 right-6 md:right-8 w-4 h-4 bg-slate-50/50 dark:bg-slate-900/50 rotate-45 border-l border-t border-slate-200/50"></div>
+              {moment.comments && moment.comments.length > 0 && (
+                <div className="flex flex-col gap-3 mb-4 md:mb-5">
+                  {moment.comments.map((c: any, i: number) => (
+                    <div key={i} className="flex gap-2.5 md:gap-3">
+                      <div className="w-6 h-6 md:w-7 md:h-7 shrink-0 rounded-md md:rounded-lg overflow-hidden border border-slate-200/60 dark:border-slate-600/60 bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center text-white text-[10px] font-black shadow-sm">
+                        {c.avatar ? <img src={c.avatar} alt={c.name} className="w-full h-full object-cover" /> : (c.name || '友').charAt(0)}
+                      </div>
+                      <div className="flex flex-col min-w-0 pt-0.5">
+                        <span className="text-[10px] md:text-[11px] font-bold text-[#576b95] dark:text-[#7f99cc] tracking-wide">{c.name}</span>
+                        <p className="text-[13px] md:text-[14px] text-slate-700 dark:text-slate-300 leading-relaxed whitespace-pre-wrap break-words mt-0.5">{c.content}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
               <MomentComments id={`/moments/${moment.id}`} />
             </div>
           </motion.div>
@@ -147,9 +162,6 @@ export default function MomentList({ moments, authorName, avatarUrl }: any) {
 
       <div className="mb-8 md:mb-14 text-center relative">
         <motion.h1 initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="text-3xl md:text-5xl font-black text-slate-900 dark:text-white mb-2 md:mb-4 tracking-tighter">生活动态</motion.h1>
-        <p className="text-xs md:text-sm text-slate-500 dark:text-slate-400 font-medium italic opacity-80 flex items-center justify-center gap-1.5 md:gap-2">
-          <Sparkles size={12} className="md:w-3.5 md:h-3.5 text-indigo-500" /> “ 在代码之外捕捉瞬间的温度 ”
-        </p>
       </div>
 
       <div className="mb-10 md:mb-16 flex flex-col items-center gap-5 md:gap-8">

@@ -57,28 +57,17 @@ export default function ProjectsBoard() {
       {/* 矩阵展示区：CSS Grid 布局 */}
       <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 relative">
         <AnimatePresence>
-          {filteredProjects.map((project) => (
-            <motion.div
-              layout
-              initial={{ opacity: 0, scale: 0.9, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.9, y: -20 }}
-              transition={{ duration: 0.4, ease: "easeOut" }}
-              key={project.id}
-              className="h-full"
-            >
-              <a
-                href={project.githubUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block h-full rounded-3xl bg-white/60 dark:bg-slate-800/50 backdrop-blur-xl border border-white/40 dark:border-white/10 shadow-xl overflow-hidden hover:shadow-indigo-500/20 transition-all duration-700 hover:-translate-y-1 group relative p-6 md:p-8"
-              >
+          {filteredProjects.map((project) => {
+            const cardContent = (
+              <>
                 {/* 装饰性光晕 */}
                 <div className="absolute -top-10 -right-10 w-32 h-32 bg-indigo-500/10 rounded-full blur-2xl group-hover:bg-indigo-500/20 transition-colors duration-700"></div>
 
                 <div className="flex items-start justify-between mb-4 relative z-10">
                   <div className="flex items-center gap-4">
-                    <span className="text-4xl">{project.icon}</span>
+                    <span className="flex items-center justify-center w-12 h-12 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 text-white font-bold text-lg shadow-lg shadow-indigo-500/30 shrink-0">
+                      {project.icon}
+                    </span>
                     <h2 className="text-2xl font-bold text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
                       {project.name}
                     </h2>
@@ -100,9 +89,31 @@ export default function ProjectsBoard() {
                     </span>
                   ))}
                 </div>
-              </a>
-            </motion.div>
-          ))}
+              </>
+            );
+            const cardClass = "block h-full rounded-3xl bg-white/60 dark:bg-slate-800/50 backdrop-blur-xl border border-white/40 dark:border-white/10 shadow-xl overflow-hidden hover:shadow-indigo-500/20 transition-all duration-700 hover:-translate-y-1 group relative p-6 md:p-8";
+            return (
+              <motion.div
+                layout
+                initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.9, y: -20 }}
+                transition={{ duration: 0.4, ease: "easeOut" }}
+                key={project.id}
+                className="h-full"
+              >
+                {project.githubUrl ? (
+                  <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" className={cardClass}>
+                    {cardContent}
+                  </a>
+                ) : (
+                  <div className={cardClass}>
+                    {cardContent}
+                  </div>
+                )}
+              </motion.div>
+            );
+          })}
         </AnimatePresence>
 
         {filteredProjects.length === 0 && (

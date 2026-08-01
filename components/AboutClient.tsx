@@ -19,10 +19,12 @@ type ActivityRecord = {
 export default function AboutClient({
   contentHtml,
   coverImage,
+  comments = [],
   activities
 }: {
   contentHtml: string,
   coverImage: string,
+  comments?: any[],
   activities: ActivityRecord[]
 }) {
   const router = useRouter();
@@ -214,7 +216,30 @@ export default function AboutClient({
                 `}</style>
                 <div className="prose prose-slate dark:prose-invert prose-base md:prose-lg max-w-none text-slate-800 dark:text-slate-200 font-serif transition-colors duration-700 leading-relaxed scroll-smooth" dangerouslySetInnerHTML={{ __html: contentHtml }} />
               </div>
-              <div className="mt-12 md:mt-16"><Comments /></div>
+              <div className="mt-12 md:mt-16">
+                {comments.length > 0 && (
+                  <div className="mb-10">
+                    <h3 className="text-lg md:text-xl font-black text-slate-800 dark:text-white mb-6 flex items-center gap-2">
+                      <MessageSquare size={18} className="text-indigo-500" />
+                      访客留言 ({comments.length})
+                    </h3>
+                    <div className="flex flex-col gap-4">
+                      {comments.map((c: any, i: number) => (
+                        <div key={i} className="flex gap-3 p-4 md:p-5 bg-white/50 dark:bg-slate-800/40 backdrop-blur-xl rounded-2xl border border-white/40 dark:border-white/10 shadow-sm">
+                          <div className="w-9 h-9 md:w-10 md:h-10 shrink-0 rounded-xl overflow-hidden bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center text-white text-sm font-black shadow-sm">
+                            {c.avatar ? <img src={c.avatar} alt={c.name} className="w-full h-full object-cover" /> : (c.name || '友').charAt(0).toUpperCase()}
+                          </div>
+                          <div className="flex flex-col min-w-0">
+                            <span className="text-xs md:text-sm font-bold text-[#576b95] dark:text-[#7f99cc] tracking-wide">{c.name}</span>
+                            <p className="text-[13px] md:text-sm text-slate-700 dark:text-slate-300 leading-relaxed whitespace-pre-wrap break-words mt-1">{c.content}</p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+                <Comments />
+              </div>
             </motion.div>
           )}
 

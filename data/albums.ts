@@ -1,8 +1,32 @@
-// 🛡️ 本文件由 XingHuiSama 控制台自动生成，请勿手动修改
+// 🛡️ 本文件由控制台自动生成，请勿手动修改
 export interface Photo { url: string; caption?: string; }
 export interface Album { id: string; title: string; description: string; cover: string; date: string; photos: Photo[]; }
 
 export const albums: Album[] = [
+  {
+    "id": "xianchen-zaji",
+    "title": "闲尘杂记",
+    "description": "从未相遇的重逢",
+    "cover": "/albums/albums-1.webp",
+    "date": "2026.08",
+    "photos": [
+      {
+        "url": "/albums/albums-1.webp"
+      },
+      {
+        "url": "/albums/albums-2.avif"
+      },
+      {
+        "url": "/albums/albums-3.avif"
+      },
+      {
+        "url": "/albums/albums-4.avif"
+      },
+      {
+        "url": "/albums/albums-5.webp"
+      }
+    ]
+  },
   {
     "id": "terra-journey",
     "title": "泰拉大陆纪行",
@@ -12,11 +36,35 @@ export const albums: Album[] = [
     "photos": [
       {
         "url": "https://bu.dusays.com/2026/03/31/69cb69bb530d8.jpg",
-        "caption": "原来的人"
+        "caption": "光影随记"
       },
       {
         "url": "https://bu.dusays.com/2026/03/24/69c24230de927.jpg",
         "caption": "星空漫游"
+      }
+    ]
+  },
+  {
+    "id": "shengxia-zhi-shi",
+    "title": "盛夏之诗",
+    "description": "盛夏的思绪",
+    "cover": "/albums/summer-2.png",
+    "date": "2026.08",
+    "photos": [
+      {
+        "url": "/albums/summer-2.png"
+      },
+      {
+        "url": "/albums/summer-3.png"
+      },
+      {
+        "url": "/albums/summer-4.png"
+      },
+      {
+        "url": "/albums/summer-5.png"
+      },
+      {
+        "url": "/albums/summer-1.png"
       }
     ]
   },

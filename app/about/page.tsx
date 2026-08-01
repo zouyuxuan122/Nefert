@@ -43,12 +43,14 @@ export default async function AboutPage() {
   const fullPath = path.join(process.cwd(), 'app', 'about', 'about.md');
   let contentHtml = "博主很懒，还没有写自我介绍哦...";
   let coverImage = "https://bu.dusays.com/2026/03/24/69c23dc278c78.jpg";
+  let comments: any[] = [];
 
   try {
     const fileContents = fs.readFileSync(fullPath, 'utf8');
     // 🌟 改为 let，以便进行文本预清洗
     let { data, content } = matter(fileContents);
     if (data.cover) coverImage = data.cover;
+    if (data.comments) comments = data.comments;
 
     // ==========================================
     // 🌟 解析前物理清洗区
@@ -221,6 +223,7 @@ export default async function AboutPage() {
             <AboutClient
               contentHtml={contentHtml}
               coverImage={coverImage}
+              comments={comments}
               activities={allActivities}
             />
           </Suspense>

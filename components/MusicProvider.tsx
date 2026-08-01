@@ -46,6 +46,7 @@ interface MusicContextType {
   duration: number;
   currentLyric: string;
   isLoading: boolean;
+  isBuffering: boolean;
   volume: number;
   isMuted: boolean;
   playMode: PlayMode;
@@ -72,6 +73,7 @@ export function MusicProvider({ children }: { children: ReactNode }) {
   const [lyrics, setLyrics] = useState<{ time: number; text: string }[]>([]);
   const [currentLyric, setCurrentLyric] = useState("正在连接高可用神经云端...");
   const [isLoading, setIsLoading] = useState(true);
+  const [isBuffering, setIsBuffering] = useState(false);
 
   // 🌟 2. 新增音量和播放模式状态
   const [volume, setVolumeState] = useState(1);
@@ -117,6 +119,10 @@ export function MusicProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     if (playlist.length === 0) return;
+    setIsBuffering(true);
+    setProgress(0);
+    setCurrentTime(0);
+    setDuration(0);
     let isMounted = true;
     const currentSong = playlist[currentIndex];
     setLyrics([]);
@@ -151,6 +157,19 @@ export function MusicProvider({ children }: { children: ReactNode }) {
     }
     return () => { isMounted = false; };
   }, [currentIndex, playlist.length]); // 移除 playlist 依赖防止无限循环，只依赖长度
+
+  // 🌟 预加载下一首，切歌时不再重新等待网络请求
+  useEffect(() => {
+    if (playlist.length < 2) return;
+    const nextIndex = (currentIndex + 1) % playlist.length;
+    const nextSrc = playlist[nextIndex]?.src;
+    if (!nextSrc) return;
+    const preloadAudio = new Audio(nextSrc);
+    preloadAudio.preload = 'auto';
+    return () => {
+      preloadAudio.src = '';
+    };
+  }, [currentIndex, playlist.length]);
 
   // 🌟 4. 同步音量到 audio 元素
   useEffect(() => {
@@ -244,6 +263,7 @@ export function MusicProvider({ children }: { children: ReactNode }) {
   return (
     <MusicContext.Provider value={{
         playlist, currentIndex, currentSong, isPlaying, progress, currentTime, duration, currentLyric, isLoading,
+        isBuffering,
         volume, isMuted, playMode, // 暴露新状态
         togglePlay, nextSong, prevSong, handleSeek,
         playSong, setVolume, toggleMute, togglePlayMode // 暴露新方法
@@ -251,10 +271,15 @@ export function MusicProvider({ children }: { children: ReactNode }) {
       {children}
       {currentSong && (
         <audio
+          key={currentSong.id}
           ref={audioRef}
           src={currentSong.src}
+          preload="auto"
+          onWaiting={() => setIsBuffering(true)}
+          onCanPlay={() => setIsBuffering(false)}
+          onPlaying={() => setIsBuffering(false)}
           onTimeUpdate={handleTimeUpdate}
-          onEnded={handleEnded} // 使用我们重写的结束处理
+          onEnded={handleEnded}
           onLoadedMetadata={handleTimeUpdate}
         />
       )}

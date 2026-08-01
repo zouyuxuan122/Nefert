@@ -219,7 +219,7 @@ export default function CyberCat() {
               type="text"
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
-              placeholder="跟煤球说点啥喵..."
+              placeholder="跟奈奈说点啥喵..."
               className="bg-transparent border-none outline-none text-sm px-3 py-1 w-full dark:text-white placeholder-gray-400"
               disabled={isThinking}
               autoFocus

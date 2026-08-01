@@ -33,6 +33,7 @@ export default function MomentsPage() {
             date: data.date || '1970-01-01',
             location: data.location || '',
             images: data.images || [],
+            comments: data.comments || [],
             content: content.trim()
           });
         });

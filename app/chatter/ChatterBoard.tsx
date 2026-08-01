@@ -45,9 +45,6 @@ export default function ChatterBoard({ chatters }: { chatters: Chatter[] }) {
         <h1 className="text-3xl md:text-5xl font-black text-slate-900 dark:text-white mb-2 md:mb-4 tracking-tighter">
           {siteConfig.chatterTitle || "源石研究笔记"}
         </h1>
-        <p className="text-xs md:text-base text-slate-500 dark:text-slate-400 font-medium italic opacity-80">
-          “ {siteConfig.chatterDescription || "日常碎片与灵感记录"} ”
-        </p>
       </div>
 
       <div className="mb-8 md:mb-12 flex flex-col items-center gap-5 md:gap-8">

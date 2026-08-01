@@ -11,7 +11,7 @@ import Comments from '../../components/Comments';
 export default function MusicClient() {
   const {
     playlist, currentSong, isPlaying, progress, currentTime, duration, currentLyric,
-    isLoading, togglePlay, nextSong, prevSong, handleSeek,
+    isLoading, isBuffering, togglePlay, nextSong, prevSong, handleSeek,
     playSong, selectSong,
     playMode, togglePlayMode,
     volume, setVolume, isMuted, toggleMute
@@ -169,6 +169,9 @@ export default function MusicClient() {
 
               <div className="w-full mt-auto relative z-20">
                 <div className="w-full flex flex-col gap-1.5 mb-6 md:mb-8 px-1 md:px-3">
+                  <div className="h-4 flex items-center justify-center">
+                    {isBuffering && <span className="text-[11px] md:text-xs font-black text-indigo-500 dark:text-indigo-400 animate-pulse tracking-widest">正在缓冲音轨...</span>}
+                  </div>
                   <input type="range" min="0" max="100" value={progress || 0} onChange={handleSeek} className="w-full h-1 md:h-1.5 rounded-full appearance-none cursor-pointer" style={{ background: `linear-gradient(to right, #4f46e5 ${progress}%, rgba(0, 0, 0, 0.15) 0)` }} />
                   <div className="flex justify-between text-[10px] md:text-xs font-bold text-slate-500 dark:text-slate-400 tabular-nums"><span>{formatTime(currentTime)}</span><span>{formatTime(duration)}</span></div>
                 </div>

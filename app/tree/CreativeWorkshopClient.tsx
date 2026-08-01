@@ -66,7 +66,7 @@ export default function CreativeWorkshopClient({ posts = [], chatters = [], mome
       const progressPercent = ((remainingExp / expNeededForNextLevel) * 100).toFixed(1);
 
       // 5. 打印高度拟真化的控制台干员档案
-      console.groupCollapsed(`🛡️ [罗德岛数据终端] 干员 XingHuiSama 个人综合档案同步...`);
+      console.groupCollapsed(`🛡️ [罗德岛数据终端] 干员 Nefert 个人综合档案同步...`);
       console.log(`%c[当前等级] Lv.${level}`, 'color: #6366f1; font-weight: 900; font-size: 16px; text-shadow: 0 0 4px rgba(99,102,241,0.3);');
       console.log(`%c[升级进度] ${remainingExp} / ${expNeededForNextLevel} EXP (${progressPercent}%)`, 'color: #10b981; font-weight: bold;');
       console.log(`[总计累计] ${totalExp} EXP`);
