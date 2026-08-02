@@ -31,9 +31,17 @@ export default function LabComments({ pageId }: { pageId?: string }) {
       owner: siteConfig.gitalkConfig.owner,
       admin: siteConfig.gitalkConfig.admin,
       proxy: '/api/github',
+
+      // 👇 固定回调地址为站点根路径，与 OAuth App 注册的 callback URL 保持一致
+      redirect: window.location.origin + '/',
+
       id: finalId, // 这里的 ID 决定了留言板对应 GitHub 的哪个 Issue
       distractionFreeMode: false,
     });
+
+    // 👇 评论数据走同源代理（服务端转发 api.github.com，规避国内网络直连不稳定）
+    // @ts-ignore
+    gitalk.github.baseURL = '/api/gh';
 
     gitalk.render(containerRef.current);
 

@@ -27,10 +27,16 @@ export default function MomentComments({ id }: MomentCommentsProps) {
       repo: siteConfig.gitalkConfig.repo,
       owner: siteConfig.gitalkConfig.owner,
       admin: siteConfig.gitalkConfig.admin,
+      // 固定回调地址为站点根路径，与 OAuth App 注册的 callback URL 保持一致
+      redirect: window.location.origin + '/',
       // 截取前49个字符作为 GitHub Issue 的 Label（Gitalk 的要求）
       id: id.substring(0, 49),
       distractionFreeMode: false,
     });
+
+    // 👇 评论数据走同源代理（服务端转发 api.github.com，规避国内网络直连不稳定）
+    // @ts-ignore
+    gitalk.github.baseURL = '/api/gh';
 
     gitalk.render(containerRef.current);
   }, [id]);

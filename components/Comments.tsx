@@ -31,9 +31,16 @@ export default function Comments() {
       // 👇 指向我们自己的同源 API，彻底告别跨域和第三方拦截！
       proxy: '/api/github',
 
+      // 👇 固定回调地址为站点根路径，与 OAuth App 注册的 callback URL 保持一致
+      redirect: window.location.origin + '/',
+
       id: (pathname.replace(/\/$/, '') || '/').substring(0, 49),
       distractionFreeMode: false,
     });
+
+    // 👇 评论数据走同源代理（服务端转发 api.github.com，规避国内网络直连不稳定）
+    // @ts-ignore
+    gitalk.github.baseURL = '/api/gh';
 
     gitalk.render(containerRef.current);
 

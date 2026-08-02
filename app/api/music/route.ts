@@ -41,7 +41,15 @@ export async function GET(request: NextRequest) {
         ])
 
         const detail = await detailRes.json()
-        const song = detail.songs?.[0]
+        let song = detail.songs?.[0]
+
+        if (!song) {
+          const resV3 = await fetch(
+            `https://music.163.com/api/v3/song/detail?c=${encodeURIComponent(JSON.stringify([{ id: Number(songId) }]))}`,
+            { headers: NET_EASE_HEADERS, signal: AbortSignal.timeout(6000) },
+          ).catch(() => null)
+          song = resV3 ? (await resV3.json()).songs?.[0] : undefined
+        }
 
         if (!song) {
           return { id: songId, error: 'not_found' }
@@ -57,15 +65,15 @@ export async function GET(request: NextRequest) {
           }
         }
 
-        const artistName = song.artists?.[0]?.name || '未知歌手'
+        const artistName = song.artists?.[0]?.name || song.ar?.[0]?.name || '未知歌手'
 
         return {
           id: songId,
           name: song.name,
           artist: artistName,
           author: artistName,
-          cover: song.album?.picUrl || '',
-          pic: song.album?.picUrl || '',
+          cover: song.album?.picUrl || song.al?.picUrl || '',
+          pic: song.album?.picUrl || song.al?.picUrl || '',
           url: `https://music.163.com/song/media/outer/url?id=${songId}.mp3`,
           lrc: lrcText,
         }
