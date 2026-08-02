@@ -27,7 +27,7 @@ export default function HomeAlbumPoster({ albums }: { albums: Album[] }) {
       <img
         src={album.cover}
         alt={album.title}
-        className="w-full h-full absolute inset-0 object-cover object-top transition-transform duration-700 group-hover:scale-105 opacity-90"
+        className="w-full h-full absolute inset-0 object-cover object-[center_12%] transition-transform duration-700 group-hover:scale-105 opacity-90"
       />
       <div className="absolute inset-0 bg-black/30 dark:bg-black/50 group-hover:bg-black/10 transition-colors duration-500"></div>
       <div className="absolute bottom-4 left-4 sm:bottom-6 sm:left-6 right-6">
