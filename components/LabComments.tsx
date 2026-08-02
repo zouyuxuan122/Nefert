@@ -39,10 +39,6 @@ export default function LabComments({ pageId }: { pageId?: string }) {
       distractionFreeMode: false,
     });
 
-    // 👇 评论数据走同源代理（服务端转发 api.github.com，规避国内网络直连不稳定）
-    // @ts-ignore
-    gitalk.github.baseURL = '/api/gh';
-
     gitalk.render(containerRef.current);
 
     // 擦除 URL 中的 OAuth 凭证，防止刷新报错
