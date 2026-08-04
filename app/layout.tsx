@@ -11,7 +11,6 @@ import ClickEffect from "../components/ClickEffect";
 import BackgroundSlider from "../components/BackgroundSlider";
 import GlobalToolbox from "../components/GlobalToolbox";
 import SplashScreen from "../components/SplashScreen";
-import CyberCat from '../components/CyberCat';
 import DanmakuBackground from '../components/DanmakuBackground';
 
 import MobileBackButton from '../components/MobileBackButton';
@@ -25,6 +24,13 @@ const notoSerif = Noto_Serif_SC({
   variable: "--font-serif",
   display: 'swap',
 });
+
+// 🌟 手机端强制桌面布局：逻辑宽度 1280、initialScale 置 null 抑制 initial-scale 输出，
+//    浏览器按"整页可见"自动缩放 → 手机上打开即为完整缩小视图（无 JS、跨浏览器可靠）
+export const viewport = {
+  width: 1280,
+  initialScale: null,
+} as any;
 
 export const metadata: Metadata = {
   title: siteConfig.title,
@@ -127,10 +133,6 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
               }
             `}} />
           </MusicProvider>
-
-          <div className="hidden md:block">
-            <CyberCat />
-          </div>
 
         </ThemeProvider>
       </body>

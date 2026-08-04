@@ -10,4 +10,12 @@ export const friendsData: Friend[] = [
     "url": "https://github.com/zouyuxuan122/ZX-code",
     "themeColor": "rgba(99, 102, 241, 0.5)"
   },
+  {
+    "id": "ner",
+    "name": "shiyybua/NER",
+    "description": "基于 TensorFlow 深度学习的命名实体识别。",
+    "avatar": "https://avatars.githubusercontent.com/u/16335491?v=4",
+    "url": "https://github.com/shiyybua/NER",
+    "themeColor": "rgba(16, 185, 129, 0.5)"
+  },
 ];

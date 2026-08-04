@@ -1,18 +1,20 @@
 "use client";
 
 import { useState, useEffect } from 'react';
+import dynamic from 'next/dynamic';
 import Navbar from '../../components/Navbar';
 import PageTransition from '../../components/PageTransition';
 import { motion, AnimatePresence } from 'framer-motion';
-import {Beaker, Rocket, Trees, Wrench} from 'lucide-react'; // 🌟 暂时移除了 Sofa 图标
+import {Trees, Rocket, GraduationCap} from 'lucide-react'; // 🌟 暂时移除了 Sofa 图标
 import { siteConfig } from '../../siteConfig'; // 🌟 引入站点配置
 
-import AlchemyLab from './AlchemyLab';
-import DijiangModel from './DijiangModel';
+import QingQiuZhiZhi from './QingQiuZhiZhi';
+// 🌟 DijiangModel 体积大（three 3D 链路），改为客户端动态加载，避免打入 SSR 函数包
+const DijiangModel = dynamic(() => import('./DijiangModel'), { ssr: false });
 // import OperatorRecreation from './OperatorRecreation'; // 🌟 先注释掉，以后需要随时可以加回来
 
 export default function CreativeWorkshopClient({ posts = [], chatters = [], moments = [] }: any) {
-  const [currentMode, setCurrentMode] = useState<'alchemy' | 'model'>('alchemy'); // 🌟 暂时只保留两个状态
+  const [currentMode, setCurrentMode] = useState<'academy' | 'model'>('academy'); // 🌟 暂时只保留两个状态
 
   // =========================================================
   // 🌟 [现实主义] 饱和渐近经验升级系统 (无限等级，难度封顶)
@@ -104,10 +106,10 @@ export default function CreativeWorkshopClient({ posts = [], chatters = [], mome
             {/* 切换开关 */}
             <div className="flex bg-white/40 dark:bg-slate-800/40 backdrop-blur-md p-1.5 rounded-full border border-white/50 dark:border-white/10 shadow-sm relative">
               <button
-                onClick={() => setCurrentMode('alchemy')}
-                className={`relative px-6 py-2.5 rounded-full text-sm font-bold transition-all z-10 flex items-center gap-2 ${currentMode === 'alchemy' ? 'text-indigo-600 dark:text-indigo-400' : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'}`}
+                onClick={() => setCurrentMode('academy')}
+                className={`relative px-6 py-2.5 rounded-full text-sm font-bold transition-all z-10 flex items-center gap-2 ${currentMode === 'academy' ? 'text-indigo-600 dark:text-indigo-400' : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'}`}
               >
-                <Beaker size={16} /> 记忆炼金室
+                <GraduationCap size={16} /> 清秋之志
               </button>
               <button
                 onClick={() => setCurrentMode('model')}
@@ -125,7 +127,7 @@ export default function CreativeWorkshopClient({ posts = [], chatters = [], mome
                 className="absolute top-1.5 bottom-1.5 bg-white dark:bg-slate-700 rounded-full z-0 shadow-sm border border-slate-100 dark:border-slate-600"
                 style={{
                   width: 'calc(50% - 6px)', // 🌟 改为平分两份宽度
-                  left: currentMode === 'alchemy' ? '6px' : 'calc(50% + 2px)' // 🌟 对应两种状态的计算位置
+                  left: currentMode === 'academy' ? '6px' : 'calc(50% + 2px)' // 🌟 对应两种状态的计算位置
                 }}
               />
             </div>
@@ -133,8 +135,8 @@ export default function CreativeWorkshopClient({ posts = [], chatters = [], mome
 
           {/* 动态渲染子组件 */}
           <AnimatePresence mode="wait">
-            {currentMode === 'alchemy' && (
-              <AlchemyLab key="alchemy-view" posts={posts} chatters={chatters} moments={moments} />
+            {currentMode === 'academy' && (
+              <QingQiuZhiZhi key="academy-view" posts={posts} chatters={chatters} moments={moments} />
             )}
             {currentMode === 'model' && (
               <DijiangModel key="model-view" posts={posts} chatters={chatters} moments={moments} />

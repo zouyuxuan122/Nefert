@@ -34,6 +34,7 @@ export default function MomentsPage() {
             location: data.location || '',
             images: data.images || [],
             comments: data.comments || [],
+            pinned: data.pinned || false,
             content: content.trim()
           });
         });

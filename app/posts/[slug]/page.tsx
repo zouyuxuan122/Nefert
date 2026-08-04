@@ -30,8 +30,18 @@ export async function generateStaticParams() {
 
   const filenames = fs.readdirSync(postsDirectory);
 
+  // 🌟 只预渲染少量非课程文章（入口页 SEO），数百篇课程文章按需动态渲染，
+  // 避免预渲染产物撑爆 EdgeOne SSR 函数包（128MiB 上限）
   return filenames
     .filter((name) => name.endsWith('.md'))
+    .filter((name) => {
+      try {
+        const { data } = matter(fs.readFileSync(path.join(postsDirectory, name), 'utf8'));
+        return !data.category;
+      } catch (e) {
+        return true;
+      }
+    })
     .map((name) => ({
       slug: name.replace(/\.md$/, ''),
     }));
@@ -120,8 +130,10 @@ function getRecentPosts(currentSlug: string) {
     const s = f.replace(/\.md$/, '');
     const c = fs.readFileSync(path.join(postsDirectory, f), 'utf8');
     const { data } = matter(c);
+    // 🌟 课程文章（带 category frontmatter）不混入「相关文章」侧栏
+    if (data.category) return null;
     return { slug: s, title: data.title || '无标题', date: data.date };
-  }).filter(p => p.slug !== currentSlug).slice(0, 3);
+  }).filter(Boolean).filter(p => p.slug !== currentSlug).slice(0, 3);
 }
 
 export default async function Post({ params }: { params: Promise<{ slug: string }> }) {

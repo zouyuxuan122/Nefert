@@ -33,6 +33,7 @@ export default function MomentList({ moments, authorName, avatarUrl }: any) {
     }
 
     result.sort((a, b) => {
+      if (a.pinned !== b.pinned) return a.pinned ? -1 : 1;
       const timeA = new Date(a.date).getTime();
       const timeB = new Date(b.date).getTime();
       return sortOrder === 'desc' ? timeB - timeA : timeA - timeB;
@@ -106,7 +107,7 @@ export default function MomentList({ moments, authorName, avatarUrl }: any) {
         </div>
         <div className="flex flex-col">
           <h3 className="text-base md:text-lg font-black text-[#576b95] dark:text-[#7f99cc] tracking-wide">{authorName}</h3>
-          <div className="flex items-center gap-1.5 md:gap-2 text-[10px] md:text-[11px] text-slate-400 font-bold mt-0.5 md:mt-1"><Clock size={10} className="md:w-3 md:h-3" /> {timeAgo(moment.date)}</div>
+          <div className="flex items-center gap-1.5 md:gap-2 text-[10px] md:text-[11px] text-slate-400 font-bold mt-0.5 md:mt-1"><Clock size={10} className="md:w-3 md:h-3" /> {timeAgo(moment.date)}{moment.pinned && <span className="ml-1 md:ml-2 inline-flex items-center gap-0.5 text-[9px] md:text-[10px] font-black text-pink-600 dark:text-pink-400 bg-pink-500/10 dark:bg-pink-400/10 px-1.5 py-0.5 rounded-full border border-pink-500/20"><Sparkles size={8} className="md:w-2.5 md:h-2.5" /> 置顶</span>}</div>
         </div>
       </div>
 
@@ -124,8 +125,11 @@ export default function MomentList({ moments, authorName, avatarUrl }: any) {
             </span>
           )}
         </div>
-        <button onClick={() => setOpenCommentId(openCommentId === moment.id ? null : moment.id)} className={`w-8 h-8 md:w-10 md:h-10 flex items-center justify-center shrink-0 rounded-full transition-all shadow-sm ${openCommentId === moment.id ? 'bg-indigo-500 text-white shadow-indigo-500/30 rotate-12' : 'bg-white/80 dark:bg-slate-800 text-slate-400 hover:text-indigo-500 hover:bg-slate-100 dark:hover:bg-slate-700'}`}>
+        <button onClick={() => setOpenCommentId(openCommentId === moment.id ? null : moment.id)} className={`flex items-center gap-1 md:gap-1.5 px-2.5 md:px-3 h-8 md:h-10 shrink-0 rounded-full transition-all shadow-sm ${openCommentId === moment.id ? 'bg-indigo-500 text-white shadow-indigo-500/30 rotate-12' : 'bg-white/80 dark:bg-slate-800 text-slate-400 hover:text-indigo-500 hover:bg-slate-100 dark:hover:bg-slate-700'}`}>
           <MessageSquare size={14} className="md:w-4 md:h-4" />
+          {moment.comments && moment.comments.length > 0 && (
+            <span className="text-[9px] md:text-[11px] font-black leading-none">{moment.comments.length}</span>
+          )}
         </button>
       </div>
 

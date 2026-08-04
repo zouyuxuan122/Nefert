@@ -29,6 +29,8 @@ function getDirActivities(dirName: string, typeLabel: '文章' | '杂谈' | '说
   return files.map(file => {
     const content = fs.readFileSync(path.join(dirPath, file), 'utf8');
     const { data } = matter(content);
+    // 🌟 课程文章（带 category frontmatter）不进入档案动态，单独展示在「清秋之志」
+    if (data.category) return null;
     return {
       id: `${dirName}-${file}`,
       type: typeLabel,
@@ -36,7 +38,7 @@ function getDirActivities(dirName: string, typeLabel: '文章' | '杂谈' | '说
       date: data.date ? new Date(data.date).toISOString() : '1970-01-01T00:00:00Z',
       url: `/${linkPrefix}/${file.replace('.md', '')}`
     };
-  });
+  }).filter(Boolean);
 }
 
 export default async function AboutPage() {

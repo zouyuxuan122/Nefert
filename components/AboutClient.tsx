@@ -70,6 +70,20 @@ export default function AboutClient({
     return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
   };
 
+  const timeAgo = (dateStr: string) => {
+    const date = new Date(dateStr);
+    const now = new Date();
+    const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
+    if (isNaN(diffInSeconds) || diffInSeconds < 0) return '';
+    if (diffInSeconds < 60) return '刚刚';
+    if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)} 分钟前`;
+    if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)} 小时前`;
+    const diffInDays = Math.floor(diffInSeconds / 86400);
+    if (diffInDays < 30) return `${diffInDays} 天前`;
+    if (diffInDays < 365) return `${Math.floor(diffInDays / 30)} 个月前`;
+    return `${Math.floor(diffInDays / 365)} 年前`;
+  };
+
   const getLocalDateKey = (d: Date) => {
     const pad = (n: number) => n.toString().padStart(2, '0');
     return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
@@ -230,7 +244,12 @@ export default function AboutClient({
                             {c.avatar ? <img src={c.avatar} alt={c.name} className="w-full h-full object-cover" /> : (c.name || '友').charAt(0).toUpperCase()}
                           </div>
                           <div className="flex flex-col min-w-0">
-                            <span className="text-xs md:text-sm font-bold text-[#576b95] dark:text-[#7f99cc] tracking-wide">{c.name}</span>
+                            <span className="flex items-center gap-1.5 flex-wrap">
+                              <span className="text-xs md:text-sm font-bold text-[#576b95] dark:text-[#7f99cc] tracking-wide">{c.name}</span>
+                              {c.date && (
+                                <span className="text-[10px] md:text-[11px] text-slate-400 dark:text-slate-500 font-medium">发表于 {timeAgo(c.date)}</span>
+                              )}
+                            </span>
                             <p className="text-[13px] md:text-sm text-slate-700 dark:text-slate-300 leading-relaxed whitespace-pre-wrap break-words mt-1">{c.content}</p>
                           </div>
                         </div>

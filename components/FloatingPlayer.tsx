@@ -9,16 +9,49 @@ export default function FloatingPlayer() {
   const pathname = usePathname();
   const { currentSong, isPlaying, togglePlay, nextSong, currentLyric, isLoading } = useMusic();
   const [isMounted, setIsMounted] = useState(false);
+  const [playerVisible, setPlayerVisible] = useState(false);
 
   useEffect(() => {
     setIsMounted(true);
   }, []);
 
+  useEffect(() => {
+    const targets = Array.from(document.querySelectorAll<HTMLElement>('[data-now-playing]'));
+    if (targets.length === 0) {
+      setPlayerVisible(false);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const anyVisible = entries.some((entry) => entry.isIntersecting);
+        if (anyVisible) setPlayerVisible(true);
+        else setPlayerVisible(false);
+      },
+      { threshold: 0.05 }
+    );
+
+    targets.forEach((el) => observer.observe(el));
+
+    const timer = setTimeout(() => {
+      const visible = targets.some((el) => {
+        const rect = el.getBoundingClientRect();
+        return rect.top < window.innerHeight && rect.bottom > 0;
+      });
+      setPlayerVisible(visible);
+    }, 0);
+
+    return () => {
+      observer.disconnect();
+      clearTimeout(timer);
+    };
+  }, [pathname, currentSong]);
+
   // 这里只拦截还没有初始化的情况，不拦截首页
   if (!isMounted || isLoading || !currentSong) return null;
 
-  // 【核心修复】：判断是否在首页。在首页时我们让它隐身，但不销毁它！
-  const isHidden = pathname === '/';
+  // 【核心逻辑】：播放器本体出现在视口内时隐身，滚出视口或不在当前页时显现！
+  const isHidden = playerVisible;
 
   return (
     <div className="fixed bottom-6 right-6 z-[9999]" style={{ pointerEvents: 'none' }}>

@@ -6,7 +6,6 @@ import PageTransition from '../../components/PageTransition';
 import ChatterBoard from './ChatterBoard';
 import { siteConfig } from '@/siteConfig';
 
-
 export const metadata = {
   title: "杂谈 | "+ siteConfig.title,
   description: "日常碎片与灵感记录",
@@ -44,12 +43,37 @@ export default function ChatterPage() {
     console.error("读取杂谈文件失败:", e);
   }
 
+  // 🌟 小说栏目：从 fictions 目录读取 md
+  const fictionsDirectory = path.join(process.cwd(), 'fictions');
+  let fictions = [];
+  try {
+    if (fs.existsSync(fictionsDirectory)) {
+      const fictionFiles = fs.readdirSync(fictionsDirectory).filter(fileName => fileName.endsWith('.md'));
+      fictions = fictionFiles.map(fileName => {
+        const slug = fileName.replace(/\.md$/, '');
+        const fileContents = fs.readFileSync(path.join(fictionsDirectory, fileName), 'utf8');
+        const { data, content } = matter(fileContents);
+        return {
+          slug,
+          title: data.title || '',
+          date: data.date || '未知时间',
+          cover: data.cover || '',
+          tags: data.tags || [],
+          afterword: data.afterword || '',
+          content: content.replace(/^#+ .*\n/m, '')
+        };
+      }).sort((a, b) => (new Date(b.date).getTime() - new Date(a.date).getTime()));
+    }
+  } catch (e) {
+    console.error("读取小说文件失败:", e);
+  }
+
   return (
     <div className="min-h-screen relative pb-10">
       <Navbar />
       <PageTransition>
         {/* 将解析好的数据传递给客户端组件进行瀑布流渲染 */}
-        <ChatterBoard chatters={chatters} />
+        <ChatterBoard chatters={chatters} fictions={fictions} />
       </PageTransition>
     </div>
   );

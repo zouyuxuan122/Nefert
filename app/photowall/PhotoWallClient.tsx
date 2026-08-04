@@ -40,7 +40,15 @@ export default function PhotoWallClient() {
   }, [activeQuery]);
 
   const bigAlbums = matchedAlbums.slice(0, 2);
-  const smallAlbums = matchedAlbums.slice(2);
+  const restAlbums = matchedAlbums.slice(2);
+  // 🌟 大横卡：新相册一/二（放在前两个大竖卡下面）
+  const wideAlbumA = restAlbums.find(a => a.id === 'new-album-1') || null;
+  const wideAlbumB = restAlbums.find(a => a.id === 'new-album-2') || null;
+  // 🌟 第三列：盛夏之诗上移到列首，其余（含新相册三）依次排后
+  const smallAlbums = [
+    ...restAlbums.filter(a => a.id === 'shengxia-zhi-shi'),
+    ...restAlbums.filter(a => a.id !== 'new-album-1' && a.id !== 'new-album-2' && a.id !== 'shengxia-zhi-shi'),
+  ];
 
   return (
     <div className="min-h-screen relative pb-32">
@@ -105,105 +113,57 @@ export default function PhotoWallClient() {
                 )}
 
                 <div className="flex flex-col lg:flex-row gap-y-20 lg:gap-x-6 xl:gap-x-10 mt-10 items-start">
-                  <div className="flex-1 w-full flex flex-col items-center">
+                  <div className="flex-1 w-full flex flex-col items-center gap-20">
                     {bigAlbums.slice(0, 1).map((album) => (
-                      <div
+                      <AlbumCard
                         key={album.id}
+                        album={album}
+                        frameClass="w-[85%] aspect-[3/4]"
+                        titleClass="text-2xl"
                         onClick={() => { setSearchQuery(''); setCurrentAlbum(album); }}
-                        className="group cursor-pointer flex flex-col items-center"
-                      >
-                        <div className="relative w-[85%] aspect-[3/4] mb-8">
-                          <div className="absolute inset-0 bg-slate-300 dark:bg-slate-700 rounded-[4px] shadow-md transform rotate-6 translate-x-4 translate-y-2 group-hover:rotate-12 group-hover:translate-x-8 transition-all duration-500 border-[6px] border-white dark:border-slate-200 overflow-hidden opacity-60">
-                             {album.photos[2] && <img src={album.photos[2].url} className="w-full h-full object-cover grayscale blur-[2px]" alt="" />}
-                          </div>
-                          <div className="absolute inset-0 bg-slate-200 dark:bg-slate-600 rounded-[4px] shadow-lg transform -rotate-3 -translate-x-2 -translate-y-1 group-hover:-rotate-6 group-hover:-translate-x-6 transition-all duration-500 border-[6px] border-white dark:border-slate-200 overflow-hidden opacity-80 z-10">
-                             {album.photos[1] && <img src={album.photos[1].url} className="w-full h-full object-cover grayscale-[50%]" alt="" />}
-                          </div>
-                          <div className="absolute inset-0 bg-white dark:bg-slate-200 rounded-[4px] shadow-2xl border-[6px] border-white dark:border-slate-200 overflow-hidden z-20 transform group-hover:-translate-y-2 group-hover:scale-105 transition-all duration-500 relative">
-                            <img src={album.cover} alt={album.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-5">
-                              <span className="text-white font-bold text-lg drop-shadow-md translate-y-2 group-hover:translate-y-0 transition-transform duration-500">{album.photos.length} 张照片</span>
-                              <span className="text-indigo-300 font-medium text-xs mt-1 drop-shadow-md translate-y-2 group-hover:translate-y-0 transition-transform duration-500 delay-75">Click to Open</span>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div className="text-center px-4 w-full">
-                          <div className="flex items-center justify-center gap-2 mb-1">
-                            <h2 className="text-2xl font-bold text-slate-900 dark:text-white transition-colors group-hover:text-indigo-600 dark:group-hover:text-indigo-400">{album.title}</h2>
-                            <span className="text-[10px] font-black text-slate-500 dark:text-slate-400 bg-white/60 dark:bg-black/30 backdrop-blur-sm px-2 py-0.5 rounded-sm uppercase tracking-wider">{album.date}</span>
-                          </div>
-                          <p className="text-sm text-slate-600 dark:text-slate-400 line-clamp-1">{album.description}</p>
-                        </div>
-                      </div>
+                      />
                     ))}
+                    {wideAlbumA && (
+                      <AlbumCard
+                        key={wideAlbumA.id}
+                        album={wideAlbumA}
+                        frameClass="w-[100%] aspect-[3/2]"
+                        titleClass="text-2xl"
+                        onClick={() => { setSearchQuery(''); setCurrentAlbum(wideAlbumA); }}
+                      />
+                    )}
                   </div>
 
-                  <div className="flex-1 w-full flex flex-col items-center">
+                  <div className="flex-1 w-full flex flex-col items-center gap-20">
                     {bigAlbums.slice(1, 2).map((album) => (
-                      <div
+                      <AlbumCard
                         key={album.id}
+                        album={album}
+                        frameClass="w-[85%] aspect-[3/4]"
+                        titleClass="text-2xl"
                         onClick={() => { setSearchQuery(''); setCurrentAlbum(album); }}
-                        className="group cursor-pointer flex flex-col items-center"
-                      >
-                        <div className="relative w-[85%] aspect-[3/4] mb-8">
-                          <div className="absolute inset-0 bg-slate-300 dark:bg-slate-700 rounded-[4px] shadow-md transform rotate-6 translate-x-4 translate-y-2 group-hover:rotate-12 group-hover:translate-x-8 transition-all duration-500 border-[6px] border-white dark:border-slate-200 overflow-hidden opacity-60">
-                             {album.photos[2] && <img src={album.photos[2].url} className="w-full h-full object-cover grayscale blur-[2px]" alt="" />}
-                          </div>
-                          <div className="absolute inset-0 bg-slate-200 dark:bg-slate-600 rounded-[4px] shadow-lg transform -rotate-3 -translate-x-2 -translate-y-1 group-hover:-rotate-6 group-hover:-translate-x-6 transition-all duration-500 border-[6px] border-white dark:border-slate-200 overflow-hidden opacity-80 z-10">
-                             {album.photos[1] && <img src={album.photos[1].url} className="w-full h-full object-cover grayscale-[50%]" alt="" />}
-                          </div>
-                          <div className="absolute inset-0 bg-white dark:bg-slate-200 rounded-[4px] shadow-2xl border-[6px] border-white dark:border-slate-200 overflow-hidden z-20 transform group-hover:-translate-y-2 group-hover:scale-105 transition-all duration-500 relative">
-                            <img src={album.cover} alt={album.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-5">
-                              <span className="text-white font-bold text-lg drop-shadow-md translate-y-2 group-hover:translate-y-0 transition-transform duration-500">{album.photos.length} 张照片</span>
-                              <span className="text-indigo-300 font-medium text-xs mt-1 drop-shadow-md translate-y-2 group-hover:translate-y-0 transition-transform duration-500 delay-75">Click to Open</span>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div className="text-center px-4 w-full">
-                          <div className="flex items-center justify-center gap-2 mb-1">
-                            <h2 className="text-2xl font-bold text-slate-900 dark:text-white transition-colors group-hover:text-indigo-600 dark:group-hover:text-indigo-400">{album.title}</h2>
-                            <span className="text-[10px] font-black text-slate-500 dark:text-slate-400 bg-white/60 dark:bg-black/30 backdrop-blur-sm px-2 py-0.5 rounded-sm uppercase tracking-wider">{album.date}</span>
-                          </div>
-                          <p className="text-sm text-slate-600 dark:text-slate-400 line-clamp-1">{album.description}</p>
-                        </div>
-                      </div>
+                      />
                     ))}
+                    {wideAlbumB && (
+                      <AlbumCard
+                        key={wideAlbumB.id}
+                        album={wideAlbumB}
+                        frameClass="w-[100%] aspect-[3/2]"
+                        titleClass="text-2xl"
+                        onClick={() => { setSearchQuery(''); setCurrentAlbum(wideAlbumB); }}
+                      />
+                    )}
                   </div>
 
                   <div className="flex-1 w-full flex flex-col gap-20">
                     {smallAlbums.map((album) => (
-                      <div
+                      <AlbumCard
                         key={album.id}
+                        album={album}
+                        frameClass="w-[92%] aspect-[4/3]"
+                        titleClass="text-xl"
                         onClick={() => { setSearchQuery(''); setCurrentAlbum(album); }}
-                        className="group cursor-pointer flex flex-col items-center"
-                      >
-                        <div className="relative w-[92%] aspect-[4/3] mb-8">
-                          <div className="absolute inset-0 bg-slate-300 dark:bg-slate-700 rounded-[4px] shadow-md transform rotate-6 translate-x-4 translate-y-2 group-hover:rotate-12 group-hover:translate-x-8 transition-all duration-500 border-[6px] border-white dark:border-slate-200 overflow-hidden opacity-60">
-                             {album.photos[2] && <img src={album.photos[2].url} className="w-full h-full object-cover grayscale blur-[2px]" alt="" />}
-                          </div>
-                          <div className="absolute inset-0 bg-slate-200 dark:bg-slate-600 rounded-[4px] shadow-lg transform -rotate-3 -translate-x-2 -translate-y-1 group-hover:-rotate-6 group-hover:-translate-x-6 transition-all duration-500 border-[6px] border-white dark:border-slate-200 overflow-hidden opacity-80 z-10">
-                             {album.photos[1] && <img src={album.photos[1].url} className="w-full h-full object-cover grayscale-[50%]" alt="" />}
-                          </div>
-                          <div className="absolute inset-0 bg-white dark:bg-slate-200 rounded-[4px] shadow-2xl border-[6px] border-white dark:border-slate-200 overflow-hidden z-20 transform group-hover:-translate-y-2 group-hover:scale-105 transition-all duration-500 relative">
-                            <img src={album.cover} alt={album.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-5">
-                              <span className="text-white font-bold text-lg drop-shadow-md translate-y-2 group-hover:translate-y-0 transition-transform duration-500">{album.photos.length} 张照片</span>
-                              <span className="text-indigo-300 font-medium text-xs mt-1 drop-shadow-md translate-y-2 group-hover:translate-y-0 transition-transform duration-500 delay-75">Click to Open</span>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div className="text-center px-4 w-full">
-                          <div className="flex items-center justify-center gap-2 mb-1">
-                            <h2 className="text-xl font-bold text-slate-900 dark:text-white transition-colors group-hover:text-indigo-600 dark:group-hover:text-indigo-400">{album.title}</h2>
-                            <span className="text-[10px] font-black text-slate-500 dark:text-slate-400 bg-white/60 dark:bg-black/30 backdrop-blur-sm px-2 py-0.5 rounded-sm uppercase tracking-wider">{album.date}</span>
-                          </div>
-                          <p className="text-sm text-slate-600 dark:text-slate-400 line-clamp-1">{album.description}</p>
-                        </div>
-                      </div>
+                      />
                     ))}
                   </div>
                 </div>
@@ -300,6 +260,45 @@ export default function PhotoWallClient() {
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         .animate-fade-in { animation: fadeIn 0.4s ease-out forwards; }
       `}</style>
+    </div>
+  );
+}
+
+// 🌟 相册卡片（三帧堆叠：后卡虚化 / 中卡斜放 / 主卡置顶）
+function AlbumCard({ album, frameClass, titleClass, onClick }: {
+  album: Album;
+  frameClass: string;
+  titleClass: string;
+  onClick: () => void;
+}) {
+  return (
+    <div
+      onClick={onClick}
+      className="group cursor-pointer flex flex-col items-center"
+    >
+      <div className={`relative ${frameClass} mb-8`}>
+        <div className="absolute inset-0 bg-slate-300 dark:bg-slate-700 rounded-[4px] shadow-md transform rotate-6 translate-x-4 translate-y-2 group-hover:rotate-12 group-hover:translate-x-8 transition-all duration-500 border-[6px] border-white dark:border-slate-200 overflow-hidden opacity-60">
+          {album.photos[2] && <img src={album.photos[2].url} className="w-full h-full object-cover grayscale blur-[2px]" alt="" />}
+        </div>
+        <div className="absolute inset-0 bg-slate-200 dark:bg-slate-600 rounded-[4px] shadow-lg transform -rotate-3 -translate-x-2 -translate-y-1 group-hover:-rotate-6 group-hover:-translate-x-6 transition-all duration-500 border-[6px] border-white dark:border-slate-200 overflow-hidden opacity-80 z-10">
+          {album.photos[1] && <img src={album.photos[1].url} className="w-full h-full object-cover grayscale-[50%]" alt="" />}
+        </div>
+        <div className="absolute inset-0 bg-white dark:bg-slate-200 rounded-[4px] shadow-2xl border-[6px] border-white dark:border-slate-200 overflow-hidden z-20 transform group-hover:-translate-y-2 group-hover:scale-105 transition-all duration-500 relative">
+          <img src={album.cover} alt={album.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-5">
+            <span className="text-white font-bold text-lg drop-shadow-md translate-y-2 group-hover:translate-y-0 transition-transform duration-500">{album.photos.length} 张照片</span>
+            <span className="text-indigo-300 font-medium text-xs mt-1 drop-shadow-md translate-y-2 group-hover:translate-y-0 transition-transform duration-500 delay-75">Click to Open</span>
+          </div>
+        </div>
+      </div>
+
+      <div className="text-center px-4 w-full">
+        <div className="flex items-center justify-center gap-2 mb-1">
+          <h2 className={`${titleClass} font-bold text-slate-900 dark:text-white transition-colors group-hover:text-indigo-600 dark:group-hover:text-indigo-400`}>{album.title}</h2>
+          <span className="text-[10px] font-black text-slate-500 dark:text-slate-400 bg-white/60 dark:bg-black/30 backdrop-blur-sm px-2 py-0.5 rounded-sm uppercase tracking-wider">{album.date}</span>
+        </div>
+        <p className="text-sm text-slate-600 dark:text-slate-400 line-clamp-1">{album.description}</p>
+      </div>
     </div>
   );
 }

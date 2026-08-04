@@ -19,6 +19,8 @@ import LatestPostsCarousel from '../components/LatestPostsCarousel';
 import LatestChatterCarousel from '../components/LatestChatterCarousel';
 import DanmakuBackground from '../components/DanmakuBackground';
 import HomeAlbumPoster from '../components/HomeAlbumPoster';
+import RecommendedCourses from '../components/RecommendedCourses';
+import HomeFictionPoster from '../components/HomeFictionPoster';
 
 function formatUpdateTime(dateString: string) {
   if (!dateString || dateString === '1970-01-01') return '刚刚更新';
@@ -44,6 +46,8 @@ export default function Home() {
       allPosts = fileNames.map(fileName => {
         const fullPath = path.join(postsDirectory, fileName);
         const { data, content } = matter(fs.readFileSync(fullPath, 'utf8'));
+        // 🌟 课程文章（带 category frontmatter）不进首页轮播与搜索，单独展示在「清秋之志」
+        if (data.category) return null;
         const rawDate = data.date || '1970-01-01';
         return {
           slug: fileName.replace(/\.md$/, ''),
@@ -54,7 +58,7 @@ export default function Home() {
           date: rawDate,
           formattedDate: formatUpdateTime(rawDate)
         };
-      }).sort((a, b) => {
+      }).filter(Boolean).sort((a, b) => {
         const dateA = new Date(a.date).getTime();
         const dateB = new Date(b.date).getTime();
         if (dateB !== dateA) return dateB - dateA;
@@ -88,6 +92,28 @@ export default function Home() {
   const chatterCount = allChatters.length;
   const realPhotoCount = albums.reduce((total, album) => total + album.photos.length, 0);
   const latestAlbum = albums.length > 0 ? albums[0] : { id: '', title: '照片墙', description: '查看摄影', cover: siteConfig.photoWallImage, date: '' };
+
+  const fictionsDirectory = path.join(process.cwd(), 'fictions');
+  let fictions: any[] = [];
+  try {
+    if (fs.existsSync(fictionsDirectory)) {
+      const fictionFiles = fs.readdirSync(fictionsDirectory).filter(f => f.endsWith('.md'));
+      fictions = fictionFiles.map(fileName => {
+        const fullPath = path.join(fictionsDirectory, fileName);
+        const { data, content } = matter(fs.readFileSync(fullPath, 'utf8'));
+        return {
+          slug: fileName.replace(/\.md$/, ''),
+          title: data.title || '未命名',
+          date: String(data.date || '').slice(0, 10),
+          cover: data.cover || '/covers/fiction-qi-ri.png',
+          tags: data.tags && Array.isArray(data.tags) ? data.tags : [],
+          motto: data.motto || '',
+          excerpt: content.replace(/\s+/g, ' ').trim().slice(0, 50),
+        };
+      }).sort((a, b) => b.date.localeCompare(a.date));
+    }
+  } catch (e) {}
+  const fictionsForHome = fictions.slice(0, 5);
 
   return (
     <ToastProvider>
@@ -142,6 +168,12 @@ export default function Home() {
 
                 </div>
               </div>
+
+              {/* 🌟 小说集：在推荐课程上方 */}
+              <div className="w-full"><HomeFictionPoster fictions={fictionsForHome} /></div>
+
+              {/* 🌟 推荐课程：在时间面板上方 */}
+              <div className="w-full"><RecommendedCourses /></div>
 
               {/* 底部数据面板 */}
               <div className="w-full mt-4"><SiteDashboard/></div>
