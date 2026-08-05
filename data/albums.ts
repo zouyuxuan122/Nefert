@@ -144,7 +144,7 @@ export const albums: Album[] = [
         "url": "/albums/tuxiang-2.jpg"
       },
       {
-        "url": "/albums/tuxiang-3.png"
+        "url": "/albums/tuxiang-3.jpg"
       }
     ]
   },
