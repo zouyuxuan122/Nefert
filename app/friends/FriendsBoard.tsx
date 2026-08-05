@@ -131,7 +131,7 @@ export default function FriendsBoard() {
             className="w-full rounded-xl md:rounded-2xl bg-black shadow-inner"
           />
           <p className="text-[10px] md:text-sm text-slate-600 dark:text-slate-400 font-serif text-center mt-3 md:mt-4 leading-relaxed">
-            ZX-Code：自进化技能引擎 · 无 Key 直连九家国产大模型 · 多智能体编排的一站式 AI 编程 Agent。
+            ZX-Code：自进化技能引擎 · 无 Key 直连九家国产大模型 · 多智能体编排的一站式 Agent。
           </p>
         </div>
       </motion.div>
@@ -147,7 +147,7 @@ export default function FriendsBoard() {
         <div className="flex items-center justify-center gap-2 md:gap-3 mb-4 md:mb-6">
           <span className="w-8 md:w-12 h-[1px] bg-slate-300 dark:bg-slate-700"></span>
           <h3 className="text-sm md:text-xl font-bold text-slate-800 dark:text-gray-200 tracking-widest uppercase">
-            友情链接 · shi
+            产品介绍
           </h3>
           <span className="w-8 md:w-12 h-[1px] bg-slate-300 dark:bg-slate-700"></span>
         </div>

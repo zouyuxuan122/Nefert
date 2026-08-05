@@ -60,6 +60,6 @@ export const siteConfig = {
     maxOutputTokens: 150,
     temperature: 0.85,
   },
-  friendLinkApplyFormat: "名称：Nefertの视界彼端\n简介：在大模型与智能体之间游走的研究者\n链接：https://github.com/zouyuxuan122\n头像：/avatar.png",
+  friendLinkApplyFormat: "名称：Nefertの视界彼端\n链接：https://github.com/zouyuxuan122\n头像：/avatar.png",
   enableLevelSystem: true,
 };

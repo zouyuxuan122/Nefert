@@ -77,7 +77,7 @@ export default function Navbar() {
     { name: '灵境', href: '/tree' },
     { name: '说说', href: '/moments' },
     { name: '杂谈', href: '/chatter' },
-    { name: '友链', href: '/friends' },
+    { name: '链接', href: '/friends' },
     { name: '关于', href: '/about' },
   ];
 

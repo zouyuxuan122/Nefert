@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { siteConfig } from '../../siteConfig';
 import { BookOpen, Feather } from 'lucide-react';
 import type { Fiction } from '../../data/fictions';
+import { formatFictionDate } from '../../components/HomeFictionPoster';
 
 type Chatter = {
   slug: string;
@@ -125,7 +126,7 @@ export default function ChatterBoard({ chatters, fictions = [] }: { chatters: Ch
                           <span className="text-[8px] md:text-[10px] font-black text-pink-600 dark:text-pink-400 bg-pink-500/5 dark:bg-pink-400/10 px-1.5 py-0.5 md:px-3 md:py-1 rounded-md md:rounded-lg border border-pink-500/10">
                             小说
                           </span>
-                          <span className="text-[8px] md:text-[10px] font-black text-indigo-600 dark:text-indigo-400 uppercase tracking-wider">{fiction.date}</span>
+                          <span className="text-[8px] md:text-[10px] font-black text-indigo-600 dark:text-indigo-400 uppercase tracking-wider">{formatFictionDate(fiction.date)}</span>
                         </div>
                         <h3 className="text-sm md:text-xl font-bold text-slate-800 dark:text-white mb-1.5 md:mb-4 leading-tight group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors line-clamp-2 md:line-clamp-none">{fiction.title}</h3>
                         <div className="text-[10px] md:text-sm text-slate-600 dark:text-slate-300 leading-snug md:leading-relaxed line-clamp-4 md:line-clamp-5 opacity-90 font-medium italic mt-auto">

@@ -3,6 +3,12 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 
+export function formatFictionDate(date: string) {
+  const m = date.match(/^(\d{4})-(\d{2})-(\d{2})/);
+  if (!m) return date;
+  return `${Number(m[2])}月${Number(m[3])}日上传`;
+}
+
 export interface FictionItem {
   slug: string;
   title: string;
@@ -76,7 +82,7 @@ export default function HomeFictionPoster({ fictions }: { fictions: FictionItem[
           )}
           <h3 className="text-2xl sm:text-3xl font-bold text-white mb-1 sm:mb-2 underline decoration-pink-400">{fiction.title}</h3>
           <p className="text-white/90 text-sm sm:text-lg line-clamp-1">{fiction.excerpt}</p>
-          <p className="text-white/60 text-xs sm:text-sm mt-1.5 font-medium">{fiction.date}</p>
+          <p className="text-white/60 text-xs sm:text-sm mt-1.5 font-medium">{formatFictionDate(fiction.date)}</p>
         </div>
       </Link>
     </section>

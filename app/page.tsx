@@ -153,7 +153,7 @@ export default function Home() {
                 <div className="col-span-1 lg:col-span-8 flex flex-col gap-6">
 
                   {/* 照片墙大海报（相册轮播：每个相册显示一张代表图） */}
-                  <HomeAlbumPoster albums={albums} />
+                  <HomeAlbumPoster albums={albums.filter(a => a.id !== 'tuxiang')} />
 
                   {/* 底层网格：说说轮播 + 主题切换器 */}
                   {/* 手机上单列，平板上分3列比例分布 */}

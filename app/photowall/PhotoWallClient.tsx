@@ -39,16 +39,17 @@ export default function PhotoWallClient() {
     return { matchedAlbums, matchedPhotos };
   }, [activeQuery]);
 
-  const bigAlbums = matchedAlbums.slice(0, 2);
-  const restAlbums = matchedAlbums.slice(2);
-  // 🌟 大横卡：新相册一/二（放在前两个大竖卡下面）
-  const wideAlbumA = restAlbums.find(a => a.id === 'new-album-1') || null;
-  const wideAlbumB = restAlbums.find(a => a.id === 'new-album-2') || null;
-  // 🌟 第三列：盛夏之诗上移到列首，其余（含新相册三）依次排后
-  const smallAlbums = [
-    ...restAlbums.filter(a => a.id === 'shengxia-zhi-shi'),
-    ...restAlbums.filter(a => a.id !== 'new-album-1' && a.id !== 'new-album-2' && a.id !== 'shengxia-zhi-shi'),
-  ];
+  // 🌟 四列：左列（梦醒才知不留痕 + 自怜 上下两个）、第二列（闲尘杂记）、第三列（星渊回响 + 唐宋历史巡游 上下两个，泰拉左边）、第四列（盛夏之诗/乡土/泰拉大陆纪行）
+  const findAlbum = (id: string) => matchedAlbums.find(a => a.id === id) || null;
+  const leftColTop = findAlbum('new-album-3');      // 梦醒才知不留痕
+  const leftColBottom = findAlbum('new-album-2');   // 自怜
+  const midColAlbum = findAlbum('xianchen-zaji');   // 闲尘杂记
+  const thirdColTop = findAlbum('new-album-1');     // 星渊回响
+  const thirdColBottom = findAlbum('history-tour'); // 唐宋历史巡游
+  const rightColAlbums = ['shengxia-zhi-shi', 'tuxiang']
+    .map(findAlbum)
+    .filter((a): a is Album => a !== null);
+  const terraAlbum = findAlbum('terra-journey'); // 泰拉大陆纪行（右下角大卡）
 
   return (
     <div className="min-h-screen relative pb-32">
@@ -112,59 +113,92 @@ export default function PhotoWallClient() {
                   </h3>
                 )}
 
-                <div className="flex flex-col lg:flex-row gap-y-20 lg:gap-x-6 xl:gap-x-10 mt-10 items-start">
-                  <div className="flex-1 w-full flex flex-col items-center gap-20">
-                    {bigAlbums.slice(0, 1).map((album) => (
-                      <AlbumCard
-                        key={album.id}
-                        album={album}
-                        frameClass="w-[85%] aspect-[3/4]"
-                        titleClass="text-2xl"
-                        onClick={() => { setSearchQuery(''); setCurrentAlbum(album); }}
-                      />
-                    ))}
-                    {wideAlbumA && (
-                      <AlbumCard
-                        key={wideAlbumA.id}
-                        album={wideAlbumA}
-                        frameClass="w-[100%] aspect-[3/2]"
-                        titleClass="text-2xl"
-                        onClick={() => { setSearchQuery(''); setCurrentAlbum(wideAlbumA); }}
-                      />
-                    )}
+                <div className="flex flex-col gap-20">
+                  {/* 🌟 第一排：三列（梦醒+自怜 / 闲尘杂记 / 盛夏+乡土+泰拉） */}
+                  <div className="flex flex-col lg:flex-row gap-y-20 lg:gap-x-6 xl:gap-x-10 items-start">
+                    {/* 左列：梦醒才知不留痕 + 自怜 上下两个 */}
+                    <div className="flex-1 w-full flex flex-col items-center gap-20">
+                      {leftColTop && (
+                        <AlbumCard
+                          key={leftColTop.id}
+                          album={leftColTop}
+                          frameClass="w-[100%] aspect-[3/2]"
+                          titleClass="text-xl"
+                          onClick={() => { setSearchQuery(''); setCurrentAlbum(leftColTop); }}
+                        />
+                      )}
+                      {leftColBottom && (
+                        <AlbumCard
+                          key={leftColBottom.id}
+                          album={leftColBottom}
+                          frameClass="w-[100%] aspect-[3/2]"
+                          titleClass="text-xl"
+                          onClick={() => { setSearchQuery(''); setCurrentAlbum(leftColBottom); }}
+                        />
+                      )}
+                    </div>
+
+                    {/* 中列：闲尘杂记 */}
+                    <div className="flex-1 w-full flex flex-col items-center gap-20">
+                      {midColAlbum && (
+                        <AlbumCard
+                          key={midColAlbum.id}
+                          album={midColAlbum}
+                          frameClass="w-[100%] aspect-[3/2]"
+                          titleClass="text-2xl"
+                          onClick={() => { setSearchQuery(''); setCurrentAlbum(midColAlbum); }}
+                        />
+                      )}
+                    </div>
+
+                    {/* 右列：盛夏之诗 / 乡土 */}
+                    <div className="flex-1 w-full flex flex-col gap-20">
+                      {rightColAlbums.map((album) => (
+                        <AlbumCard
+                          key={album.id}
+                          album={album}
+                          frameClass="w-[100%] aspect-[4/3]"
+                          titleClass="text-xl"
+                          onClick={() => { setSearchQuery(''); setCurrentAlbum(album); }}
+                        />
+                      ))}
+                    </div>
                   </div>
 
-                  <div className="flex-1 w-full flex flex-col items-center gap-20">
-                    {bigAlbums.slice(1, 2).map((album) => (
-                      <AlbumCard
-                        key={album.id}
-                        album={album}
-                        frameClass="w-[85%] aspect-[3/4]"
-                        titleClass="text-2xl"
-                        onClick={() => { setSearchQuery(''); setCurrentAlbum(album); }}
-                      />
-                    ))}
-                    {wideAlbumB && (
-                      <AlbumCard
-                        key={wideAlbumB.id}
-                        album={wideAlbumB}
-                        frameClass="w-[100%] aspect-[3/2]"
-                        titleClass="text-2xl"
-                        onClick={() => { setSearchQuery(''); setCurrentAlbum(wideAlbumB); }}
-                      />
-                    )}
-                  </div>
+                  {/* 🌟 第二排：叠放区（星渊回响 + 唐宋历史巡游）+ 泰拉大陆纪行（与左中两列对齐，泰拉不再顶到右侧边缘） */}
+                  <div className="flex flex-col lg:flex-row gap-y-20 lg:gap-x-6 xl:gap-x-10 items-start w-full lg:w-2/3">
+                    <div className="flex-1 w-full flex flex-col items-center gap-20">
+                      {thirdColTop && (
+                        <AlbumCard
+                          key={thirdColTop.id}
+                          album={thirdColTop}
+                          frameClass="w-[100%] aspect-[3/2]"
+                          titleClass="text-xl"
+                          onClick={() => { setSearchQuery(''); setCurrentAlbum(thirdColTop); }}
+                        />
+                      )}
+                      {thirdColBottom && (
+                        <AlbumCard
+                          key={thirdColBottom.id}
+                          album={thirdColBottom}
+                          frameClass="w-[100%] aspect-[3/2]"
+                          titleClass="text-xl"
+                          onClick={() => { setSearchQuery(''); setCurrentAlbum(thirdColBottom); }}
+                        />
+                      )}
+                    </div>
 
-                  <div className="flex-1 w-full flex flex-col gap-20">
-                    {smallAlbums.map((album) => (
-                      <AlbumCard
-                        key={album.id}
-                        album={album}
-                        frameClass="w-[92%] aspect-[4/3]"
-                        titleClass="text-xl"
-                        onClick={() => { setSearchQuery(''); setCurrentAlbum(album); }}
-                      />
-                    ))}
+                    <div className="flex-1 w-full flex flex-col items-center">
+                      {terraAlbum && (
+                        <AlbumCard
+                          key={terraAlbum.id}
+                          album={terraAlbum}
+                          frameClass="w-[100%] aspect-[3/2]"
+                          titleClass="text-xl"
+                          onClick={() => { setSearchQuery(''); setCurrentAlbum(terraAlbum); }}
+                        />
+                      )}
+                    </div>
                   </div>
                 </div>
 

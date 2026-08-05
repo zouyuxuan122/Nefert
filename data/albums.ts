@@ -4,6 +4,48 @@ export interface Album { id: string; title: string; description: string; cover: 
 
 export const albums: Album[] = [
   {
+    "id": "new-album-3",
+    "title": "梦醒才知不留痕",
+    "description": "它重复着我汹涌的忍耐",
+    "cover": "/albums/e24f331708dd7fc6fb53e966a8020c5372233788.avif",
+    "date": "2025.05",
+    "photos": [
+      { "url": "/albums/e24f331708dd7fc6fb53e966a8020c5372233788.avif" },
+      { "url": "/albums/1d6455084abe21cb0c1ca58e67bcdc6b1f1b238b.avif" },
+      { "url": "/albums/37ff41572611495c4e3c62c8225f50e4c91083b1.avif" },
+      { "url": "/albums/7b8a5d42bd1c3f4515b62bb561559e3166d3827d.avif" },
+      { "url": "/albums/f84df4fcd30ba34cf1a2e95d92019319eb0d3385.avif" },
+      { "url": "/albums/3a2e7d4db065fce6715e649c833a0555159b4f5d.avif" },
+      { "url": "/albums/3398c3aade86cb5675ff18aa6dc9288ef4f1e212.avif" },
+      { "url": "/albums/9cb9d41c0a1682b54889ea5e21f1594022aa8500.avif" },
+      { "url": "/albums/6146cb09254cc2ba7807a04da3ddb52a784a696f.avif" },
+      { "url": "/albums/0fe44e12f3e4a33f62fa8d67bfbe45becf431a9d.avif" },
+      { "url": "/albums/e2a64f39e445a8e1df6f1feaec824bb5a1ee2a67.avif" },
+      { "url": "/albums/eeb86bc5334bf8c9604da27e662875e8f70f6a11.webp" },
+      { "url": "/albums/2897f6f8a89fd20f267da57a61ded30500f435ca.avif" },
+      { "url": "/albums/be4cf0addb6e37ae35a8ba3d7a0e156a5f921341.avif" },
+      { "url": "/albums/435e5848716fdaf1290b6f76fe6dffd0c729831d.avif" },
+      { "url": "/albums/7704c3b354efd9d9a2ec5acf32be7e8c8748e8ae.avif" }
+    ]
+  },
+  {
+    "id": "history-tour",
+    "title": "唐宋历史巡游",
+    "description": "寻访千年前的长安与汴梁遗迹",
+    "cover": "https://bu.dusays.com/2026/03/24/69c24230a4efe.jpg",
+    "date": "2025.11",
+    "photos": [
+      {
+        "url": "https://bu.dusays.com/2026/03/24/69c24230a5ff8.jpg",
+        "caption": "古都夕阳"
+      },
+      {
+        "url": "https://bu.dusays.com/2026/03/24/69c24230d661d.jpg",
+        "caption": "青石板小路"
+      }
+    ]
+  },
+  {
     "id": "xianchen-zaji",
     "title": "闲尘杂记",
     "description": "从未相遇的重逢",
@@ -69,48 +111,6 @@ export const albums: Album[] = [
     ]
   },
   {
-    "id": "new-album-3",
-    "title": "梦醒才知不留痕",
-    "description": "它重复着我汹涌的忍耐",
-    "cover": "/albums/e24f331708dd7fc6fb53e966a8020c5372233788.avif",
-    "date": "2025.05",
-    "photos": [
-      { "url": "/albums/e24f331708dd7fc6fb53e966a8020c5372233788.avif" },
-      { "url": "/albums/1d6455084abe21cb0c1ca58e67bcdc6b1f1b238b.avif" },
-      { "url": "/albums/37ff41572611495c4e3c62c8225f50e4c91083b1.avif" },
-      { "url": "/albums/7b8a5d42bd1c3f4515b62bb561559e3166d3827d.avif" },
-      { "url": "/albums/f84df4fcd30ba34cf1a2e95d92019319eb0d3385.avif" },
-      { "url": "/albums/3a2e7d4db065fce6715e649c833a0555159b4f5d.avif" },
-      { "url": "/albums/3398c3aade86cb5675ff18aa6dc9288ef4f1e212.avif" },
-      { "url": "/albums/9cb9d41c0a1682b54889ea5e21f1594022aa8500.avif" },
-      { "url": "/albums/6146cb09254cc2ba7807a04da3ddb52a784a696f.avif" },
-      { "url": "/albums/0fe44e12f3e4a33f62fa8d67bfbe45becf431a9d.avif" },
-      { "url": "/albums/e2a64f39e445a8e1df6f1feaec824bb5a1ee2a67.avif" },
-      { "url": "/albums/eeb86bc5334bf8c9604da27e662875e8f70f6a11.webp" },
-      { "url": "/albums/2897f6f8a89fd20f267da57a61ded30500f435ca.avif" },
-      { "url": "/albums/be4cf0addb6e37ae35a8ba3d7a0e156a5f921341.avif" },
-      { "url": "/albums/435e5848716fdaf1290b6f76fe6dffd0c729831d.avif" },
-      { "url": "/albums/7704c3b354efd9d9a2ec5acf32be7e8c8748e8ae.avif" }
-    ]
-  },
-  {
-    "id": "history-tour",
-    "title": "唐宋历史巡游",
-    "description": "寻访千年前的长安与汴梁遗迹",
-    "cover": "https://bu.dusays.com/2026/03/24/69c24230a4efe.jpg",
-    "date": "2025.11",
-    "photos": [
-      {
-        "url": "https://bu.dusays.com/2026/03/24/69c24230a5ff8.jpg",
-        "caption": "古都夕阳"
-      },
-      {
-        "url": "https://bu.dusays.com/2026/03/24/69c24230d661d.jpg",
-        "caption": "青石板小路"
-      }
-    ]
-  },
-  {
     "id": "new-album-1",
     "title": "星渊回响",
     "description": "愿我们仰望星空时，仍能记起曾经的自己",
@@ -128,6 +128,24 @@ export const albums: Album[] = [
       { "url": "/albums/9dd9d542b8beb26bf790ed94050ce2bf900fd6cf.webp" },
       { "url": "/albums/a71dd98f3761ab5db85d2f5933d1fcfbef52f785.avif" },
       { "url": "/albums/c426596cf0f89ec6f5804af3812cf38992700aec.avif" }
+    ]
+  },
+  {
+    "id": "tuxiang",
+    "title": "乡土",
+    "description": "雨不会一直下",
+    "cover": "/albums/tuxiang-1.png",
+    "date": "2026.08",
+    "photos": [
+      {
+        "url": "/albums/tuxiang-1.png"
+      },
+      {
+        "url": "/albums/tuxiang-2.png"
+      },
+      {
+        "url": "/albums/tuxiang-3.png"
+      }
     ]
   },
   {
