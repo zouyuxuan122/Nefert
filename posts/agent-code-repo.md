@@ -1,6 +1,6 @@
 ---
 title: "读懂一个代码库：AST、LSP 与代码索引"
-date: "2026-07-28 07:00:30"
+date: "2026-07-28 07:41:30"
 description: "在几万行代码里精准定位该改哪个文件，靠的不是全文搜索。用图书馆的比喻聊聊 AST、LSP 和代码索引"
 cover: "/covers/post-3.avif"
 tags: ["AST", "LSP", "编译器", "代码分析"]
